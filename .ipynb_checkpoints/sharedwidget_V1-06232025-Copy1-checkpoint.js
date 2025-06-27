@@ -54,19 +54,17 @@ function renderCoordinates({ model, el }) {
 //groups all groups together
       const container = document.createElement("div");
       const CoordGroup = document.createElement("div");
+    // const CoordGroup = document.createElement("div");
      CoordGroup.style.display = "flex";
      CoordGroup.style.gap = "1rem";
-     CoordGroup.style.marginLeft = "1rem";
-     CoordGroup.style.marginBottom = "10%";
-     container.classList.add("control-widget");
-     container.style.position = "relative";
+      container.classList.add("control-widget");
+      container.style.position = "relative";
      
     // === RA ===
       const raGroup = document.createElement("div");
       const raLabel = document.createElement("label");
       raLabel.innerText = "RA:";
       raLabel.title = "right ascension (degrees)";
-      raLabel.style.marginRight = "1rem";
       const raInput = document.createElement("input");
       raInput.title = "right ascension (degrees)";
       raInput.type = "number";
@@ -90,7 +88,6 @@ function renderCoordinates({ model, el }) {
       const decLabel = document.createElement("label");
       decLabel.innerText = "DEC:";
       decLabel.title = "declination (degrees)";
-      decLabel.style.marginRight = "1rem";
       const decInput = document.createElement("input");
       decInput.type = "number";
       decInput.step = "0.00001";
@@ -134,37 +131,25 @@ function renderRatio({ model, el }) {
       const RatioGroup = document.createElement("div");
       RatioGroup.style.display = "flex";
       RatioGroup.style.gap = "1rem";
-      RatioGroup.style.marginLeft = "1rem";
-      RatioGroup.style.marginBottom = "10%";
-      RatioGroup.style.alignItems = "center";
       container.classList.add("control-widget");
       container.style.position = "relative";
 
           // // === Crop Size Width ===
     
       const cropwidthGroup = document.createElement("div");
-      cropwidthGroup.style.alignItems = "center";
-      cropwidthGroup.style.position = "relative";
-      // cropwidthGroup.style.justifyContent = "center";
-    
       const cropwidthLabel = document.createElement("label");
-      // cropwidthLabel.innerHTML = "Crop<br>Width:";
-      cropwidthLabel.innerHTML = "Crop Width:";    
-      cropwidthLabel.style.lineHeight = "1.0";
+      cropwidthLabel.innerText = "Crop Width:";
       cropwidthLabel.title = "image width (pixels)";
-      cropwidthLabel.style.marginRight = "1rem";
-
-
-    
+      
       const cropwidthInput = document.createElement("input");
       cropwidthInput.type = "number";
       cropwidthInput.step = "any";
       cropwidthInput.value = model.get("cropwidth");
-      cropwidthInput.style.width = "7.7rem";
-      // cropwidthInput.style.marginBottom = "1rem";
+      // cropwidthInput.style.width = "5rem";
+      // cropwidthGroup.style.marginTop = "1rem";
       // cropwidthGroup.style.marginLeft = ".5rem";
-      // cropwidthInput.style.marginRight = "1rem";
-      cropwidthLabel.addEventListener("input", () => {
+      // cropwidthGroup.style.marginRight = "3rem";
+      cropwidthInput.addEventListener("input", () => {
         model.set("cropwidth", parseInt(cropwidthInput.value));
         model.save_changes();
       });
@@ -178,17 +163,15 @@ function renderRatio({ model, el }) {
 
       const cropheightGroup = document.createElement("div");
       const cropheightLabel = document.createElement("label");
-      cropheightLabel.innerHTML = "Crop Height:";
-      // cropheightLabel.innerHTML = "Crop<br>Height:";
-      cropheightLabel.style.lineHeight = "1";
+      cropheightLabel.innerText = "Crop Height:";
       cropheightLabel.title = "image height (pixels)";
       const cropheightInput = document.createElement("input");
       cropheightInput.type = "number";
       cropheightInput.step = "any";
       cropheightInput.value = model.get("cropheight");
-      cropheightInput.style.width = "7.7rem";
+      // cropheightInput.style.width = "5rem";
       // cropheightGroup.style.marginTop = "1rem";
-      cropheightLabel.style.marginRight = "1rem";
+      // cropheightLabel.style.marginLeft = ".5rem";
       // cropheightLabel.style.marginBottom = ".5rem";
       cropheightInput.addEventListener("input", () => {
         model.set("cropheight", parseInt(cropheightInput.value));
@@ -203,15 +186,14 @@ function renderRatio({ model, el }) {
         // === Zoom In Button ===
 
     const zoominGroup = document.createElement("div");
-    // zoominGroup.style.marginLEFT = "1rem";
     const zoominButton = document.createElement("button");
-    zoominButton.innerHTML = '<span class="mdi mdi-magnify-plus-outline mdi-48px"></span>';
+    zoominButton.innerHTML = '<span class="mdi mdi-magnify-plus-outline mdi-36px"></span>';
     zoominButton.title = "decreases the crop size by 0.5";
     // zoominButton.style.marginTop = "1rem";
     // zoominButton.style.marginRight = ".5rem";
-    // zoominButton.style.marginLEFT = "1rem";
-    zoominButton.style.width = "42px";
-    zoominButton.style.height = "42px";
+    // zoominButton.style.marginLEFT = ".5rem";
+    zoominButton.style.width = "36px";
+    zoominButton.style.height = "36px";
     zoominButton.addEventListener("click", () => {
         //When pressed will multiply the crop sizes by 0.5 and input that answer as new crop sizes
       const newWidth = model.get("cropwidth") * 0.5;
@@ -228,15 +210,15 @@ function renderRatio({ model, el }) {
     const zoomoutGroup = document.createElement("div");
     const zoomoutButton = document.createElement("button");
     // zoomoutButton.innerText = "🔍➖";
-    zoomoutButton.innerHTML = '<span class="mdi mdi-magnify-minus-outline mdi-48px"></span>';
+    zoomoutButton.innerHTML = '<span class="mdi mdi-magnify-minus-outline mdi-36px"></span>';
     // zoomoutButton.innerHTML = "🔍➖";
     zoomoutButton.title = "increases the crop size by 1.5";
     // zoomoutButton.style.marginTop = ".2rem";
     // zoomoutButton.style.marginRight = ".5rem";
     // zoomoutButton.style.marginLeft = ".5rem";
     // zoomoutButton.style.marginBottom = "1rem";
-    zoomoutButton.style.width = "42px";
-    zoomoutButton.style.height = "42px";
+    zoomoutButton.style.width = "36px";
+    zoomoutButton.style.height = "36px";
     zoomoutButton.addEventListener("click", () => {
       const newWidth = model.get("cropwidth") * 1.5;
       const newHeight = model.get("cropheight") * 1.5;
@@ -277,21 +259,14 @@ function renderNormalization({ model, el }) {
       const container = document.createElement("div");
       container.classList.add("control-widget");
       container.style.position = "relative";
-      const NormalGroup = document.createElement("div");
-      NormalGroup.style.marginBottom = "10%";
-    
-    
       // === Min% ===
 
       const minGroup = document.createElement("div");
-      minGroup.style.width = "601px";
-      minGroup.style.marginBottom = "2%"
-      // minGroup.style.display = "";
-      // minGroup.style.alignItems = "center";
+      // minGroup.style.display = "flex";
+      minGroup.style.width = "100%";
+
       const minLabel = document.createElement("label");
       minLabel.innerText = "Min %:";
-      minLabel.style.marginLeft = "1rem";
-      minLabel.style.marginRight = "1rem";
       minLabel.title = "adjust the upper limit of the image normalization where pixel values outside this range are clipped";
       // minGroup.style.marginRight = ".5rem";
     //Creates Slider
@@ -338,14 +313,8 @@ function renderNormalization({ model, el }) {
       // === Max% ===
 
       const maxGroup = document.createElement("div");
-      maxGroup.style.width = "602px";
-      // maxGroup.style.display = "flex";
-      // maxGroup.style.alignItems = "center";
-      maxGroup.style.marginBottom = "2%"
       const maxLabel = document.createElement("label");
       maxLabel.innerText = "Max %:";
-      maxLabel.style.marginLeft = "1rem";
-      maxLabel.style.marginRight = "0.8rem";
       maxLabel.title = "adjust the upper limit of the image normalization where pixel values outside this range are clipped";
       // maxLabel.style.marginLeft = ".5rem";
       // maxGroup.style.marginRight = ".5rem";
@@ -387,15 +356,13 @@ function renderNormalization({ model, el }) {
 
 
     const invertButtonGroup = document.createElement("div");
-    invertButtonGroup.style.display = "flex";
-    invertButtonGroup.style.alignItems = "center";
     const invertButton = document.createElement("button");
-    invertButton.innerText = "Invert";
-    // invertButton.innerText = "INVERT";
+    invertButton.innerText = "INVERT";
     invertButton.title = "invert image";
-    invertButton.style.marginLeft = "1rem";
-    invertButton.style.padding = "8px 13px 8px 13px";
-    // invertButton.style.fontWeight = "normal";
+    // saveFITSButton.style.marginTop = "0.2rem";
+    // saveFITSButton.style.marginRight = ".5rem";
+    // saveFITSButton.style.marginLeft = ".5rem";
+    // saveFITSButton.style.width = "7rem";
     let invert = false
     
     // On click: trigger save
@@ -413,38 +380,39 @@ function renderNormalization({ model, el }) {
 
     // === Custom Stretch Dropdown (button + dropdown) ===
     const stretchGroup = document.createElement("div");
-    stretchGroup.style.display = "flex";
-    stretchGroup.style.alignItems = "center";
-    stretchGroup.style.marginBottom = "2%"
-
     
     const stretchLabel = document.createElement("label");
     stretchLabel.innerText = "Stretch:";
-    stretchLabel.title = "applies stretch function to image";   
-    stretchLabel.style.marginLeft = "1rem";
-    stretchLabel.style.marginRight = "0.6rem";
+    stretchLabel.title = "applies stretch function to image";
     stretchGroup.appendChild(stretchLabel);
     
     const stretchDropdownWrapper = document.createElement("div");
     stretchDropdownWrapper.style.display = "inline-block";
     stretchDropdownWrapper.style.position = "relative";
-    // stretchDropdownWrapper.style.marginLeft = "0.5rem";
+    stretchDropdownWrapper.style.marginLeft = "0.5rem";
     
     const stretchButton = document.createElement("button");
-    stretchButton.style.width = "70px";
+    stretchButton.style.width = "65px";
     stretchButton.style.height = "30px";
+    stretchButton.style.background = "#01617e";
+    stretchButton.style.color = "#ffffff";
+    // stretchButton.style.border = "1px solid #ffffff";
+    stretchButton.style.cursor = "pointer";
+    stretchButton.style.fontWeight = "normal";
+    stretchButton.style.textAlign = "left";
+    // stretchButton.style.padding = "0 10px";
     stretchButton.title = "Choose stretch function";
     
     const stretchOptions = ["linear", "log", "sqrt", "asinh", "sinh"];
     
     let currentStretch = model.get("stretch") || "linear";
-    stretchButton.innerText = currentStretch + "    ⏷";
+    stretchButton.innerText = currentStretch + " ⏷";
     
     const stretchDropdownMenu = document.createElement("div");
     stretchDropdownMenu.style.position = "absolute";
     stretchDropdownMenu.style.top = "100%";
     stretchDropdownMenu.style.left = "0";
-    stretchDropdownMenu.style.width = "98%";
+    stretchDropdownMenu.style.width = "63px";
     stretchDropdownMenu.style.background = "#01617e";
     stretchDropdownMenu.style.border = "1px solid #ffffff";
     stretchDropdownMenu.style.display = "none";
@@ -457,10 +425,10 @@ function renderNormalization({ model, el }) {
       item.style.fontWeight = "normal";
       item.style.padding = "8px 12px";
       item.style.cursor = "pointer";
-
+    
       item.addEventListener("click", () => {
         currentStretch = option;
-        stretchButton.innerText = currentStretch + "    ⏷";
+        stretchButton.innerText = currentStretch + " ⏷";
         stretchDropdownMenu.style.display = "none";
     
         model.set("stretch", currentStretch);
@@ -493,39 +461,57 @@ function renderNormalization({ model, el }) {
     // Update button if model changes externally
     model.on("change:stretch", () => {
       currentStretch = model.get("stretch");
-      stretchButton.innerText = currentStretch + "  ⏷";
+      stretchButton.innerText = currentStretch + " ⏷";
     });
 
+
+
+
+
+
+
+
+    
+
+    
+    
+      // // === Stretch Dropdown ===
+
+      // const stretchGroup = document.createElement("div");
+      // const stretchLabel = document.createElement("label");
+      // stretchLabel.innerText = "Stretch:";
+      // stretchLabel.title = "applies stretch function to ";
+      // // stretchLabel.style.marginLeft = ".5rem";
+      // // stretchGroup.style.marginTop = "1.5rem";
+      // const stretchSelect = document.createElement("select");
+      // ["linear", "log", "sqrt", "asinh", "sinh"].forEach(option => {
+      //   const opt = document.createElement("option");
+      //   opt.value = option;
+      //   opt.innerText = option;
+      //   stretchSelect.appendChild(opt);
+      // });
+
+      // stretchSelect.value = model.get("stretch");
+      // stretchSelect.addEventListener("change", () => {
+      //   model.set("stretch", stretchSelect.value);
+      //   model.save_changes();
+      // });
+      // model.on("change:stretch", () => {
+      //   stretchSelect.value = model.get("stretch");
+      // });
+      // stretchGroup.appendChild(stretchLabel);
+      // stretchGroup.appendChild(stretchSelect);
 
       // === Append All Groups ===
 //Stacked one on top of the other
     
-      NormalGroup.appendChild(stretchGroup);
-      NormalGroup.appendChild(minGroup);
-      NormalGroup.appendChild(maxGroup);
-      NormalGroup.appendChild(invertButtonGroup);
-
-
-
-      container.appendChild(NormalGroup);
+      container.appendChild(stretchGroup);
+      container.appendChild(minGroup);
+      container.appendChild(maxGroup);
+      // container.appendChild(invertGroup);
+      container.appendChild(invertButtonGroup);
       el.appendChild(container);
     }
-
-        //   container.appendChild(stretchGroup);
-    //   container.appendChild(minGroup);
-    //   container.appendChild(maxGroup);
-    //   // container.appendChild(invertGroup);
-    //   container.appendChild(invertButtonGroup);
-    //   el.appendChild(container);
-    // }
-
-
-
-
-
-
-
-
 
 
 
@@ -535,18 +521,14 @@ function renderSave({ model, el }) {
   container.classList.add("control-widget");
   container.style.position = "relative"; // to anchor dropdown
 
-  const SaveGroup = document.createElement("div");
-  SaveGroup.style.marginTop = "4%";
-  SaveGroup.style.marginBottom = "15%";
 
   // Optional: Save to memory button
   const saveMemoryButtonGroup = document.createElement("div");
   const saveMemoryButton = document.createElement("button");
   saveMemoryButton.innerText = "Save to Notebook";
   saveMemoryButton.title = "Save all cropped images to memory as 'cutout'";
-  saveMemoryButton.style.width = "405px";
-  saveMemoryButton.style.height = "40px";
-  saveMemoryButton.style.marginLeft = "1rem";
+  saveMemoryButton.style.width = "75%";
+  saveMemoryButton.style.height = "30px";
   saveMemoryButton.style.background = "#a75000";
 
   saveMemoryButton.addEventListener("click", () => {
@@ -555,7 +537,7 @@ function renderSave({ model, el }) {
   });
 
   saveMemoryButtonGroup.appendChild(saveMemoryButton);
-  // container.appendChild(saveMemoryButtonGroup);
+  container.appendChild(saveMemoryButtonGroup);
 
 
 
@@ -568,25 +550,23 @@ function renderSave({ model, el }) {
   const saveButton = document.createElement("button");
   saveButton.innerText = "Save ⏷";
   saveButton.title = "Choose format to save";
-  saveButton.style.width = "100px";
-  saveButton.style.height = "40px";
-  saveButton.style.marginLeft = "1rem";
+  saveButton.style.width = "25%";
+  saveButton.style.height = "30px";
 
   const dropdownMenu = document.createElement("div");
   dropdownMenu.style.position = "absolute";
   dropdownMenu.style.top = "100%";
   dropdownMenu.style.left = "0";
-  dropdownMenu.style.width = "85%";
-  dropdownMenu.style.marginLeft = "1rem";
+  dropdownMenu.style.width = "24.5%";
   dropdownMenu.style.background = "#01617e";
   dropdownMenu.style.border = "1px solid #ffffff";
+  // dropdownMenu.style.boxShadow = "0 2px 6px rgba(0,0,0,0.15)";
   dropdownMenu.style.display = "none";
   dropdownMenu.style.zIndex = "999";
 
   const options = [
     { label: "PNGs", action: () => model.set("save_png", true) },
-    { label: "FITS", action: () => model.set("save_fits", true) },
-    { label: "Colored", action: () => model.set("save_color", true) }
+    { label: "FITS", action: () => model.set("save_fits", true) }
   ];
 
   options.forEach(({ label, action }) => {
@@ -619,14 +599,10 @@ function renderSave({ model, el }) {
 
   dropdownWrapper.appendChild(saveButton);
   dropdownWrapper.appendChild(dropdownMenu);
-  // container.appendChild(dropdownWrapper);
+  container.appendChild(dropdownWrapper);
 
 
-    SaveGroup.appendChild(saveMemoryButtonGroup);
-    SaveGroup.appendChild(dropdownWrapper);
-    // SaveGroup.style.marginRight = "1rem";
 
-  container.appendChild(SaveGroup);
   el.appendChild(container);
 }
 
@@ -642,103 +618,115 @@ function renderSave({ model, el }) {
 
 
 function renderImageCounter({ model, el }) {
-  const container = document.createElement("div");
-  container.classList.add("control-widget");
-  container.style.position = "relative";
-
-  const IndexGroup = document.createElement("div");
-  IndexGroup.style.display = "flex";
-  IndexGroup.style.alignItems = "center";
-  IndexGroup.style.gap = "0.5rem";
-  IndexGroup.style.marginRight = "0.5rem";    
-  IndexGroup.style.marginBottom = "0.5rem";      
-
-  const decrementButton = document.createElement("button");
-  decrementButton.innerHTML = '<span class="mdi mdi-menu-left mdi-24px"></span>';
-  decrementButton.title = "Previous image";
-  decrementButton.style.background = "none";
-  decrementButton.style.width = "1rem";
-  decrementButton.style.height = "1rem";
-  decrementButton.style.display = "flex";
-  decrementButton.style.alignItems = "center";
-  decrementButton.style.justifyContent = "center";
-
-  const incrementButton = document.createElement("button");
-  incrementButton.innerHTML = '<span class="mdi mdi-menu-right mdi-24px"></span>';
-  incrementButton.title = "Next image";
-  incrementButton.style.background = "none";
-  incrementButton.style.width = "1rem";
-  incrementButton.style.height = "1rem";
-  incrementButton.style.display = "flex";
-  incrementButton.style.alignItems = "center";
-  incrementButton.style.justifyContent = "center";
-
-  const IndexInput = document.createElement("input");
-  IndexInput.type = "number";
-  IndexInput.step = "1";
-  IndexInput.min = "1";  // Show 1 as the minimum
-  IndexInput.max = model.get("total");
-  IndexInput.value = model.get("index") + 1;  // Offset display
-  IndexInput.style.width = "2rem";
-  IndexInput.style.textAlign = "center";
-
-  // Label: Image x/N
-  const label = document.createElement("span");
-  label.style.marginLeft = "0.5rem";
-  const updateLabel = () => {
-    const index = model.get("index") + 1;  // Display index + 1
-    const total = model.get("total") || "?";  // Make sure model includes `total`
-    label.textContent = `Image ${index}/${total}`;
-  };
-
-  // Input change (convert back to 0-based index)
-  IndexInput.addEventListener("input", () => {
-    const newVal = parseInt(IndexInput.value) - 1;
-    if (!isNaN(newVal) && newVal >= 0 && newVal < model.get("total")) {
-      model.set("index", newVal);
-      model.save_changes();
-    } else {
-      // Clamp input value to valid range
-      IndexInput.value = model.get("index") + 1;
-    }
-  });
-
-  model.on("change:index", () => {
-    IndexInput.value = model.get("index") + 1;  // Show index+1
-    updateLabel();
-  });
-
-  // Buttons
-  decrementButton.addEventListener("click", () => {
-    let newVal = Math.max(0, model.get("index") - 1);
-    model.set("index", newVal);
-    model.save_changes();
-  });
-
-  incrementButton.addEventListener("click", () => {
-    let newVal = model.get("index");
-    if (newVal < model.get("total") - 1) {
-      newVal += 1;
-      model.set("index", newVal);
-      model.save_changes();
-    }
-    // else do nothing, prevent index overflow
-  });
-
-  updateLabel();
+//groups all groups together
+      const container = document.createElement("div");
+      container.classList.add("control-widget");
+      container.style.position = "relative";
     
-  // IndexGroup.appendChild(label);
-  IndexGroup.appendChild(decrementButton);
-  IndexGroup.appendChild(label);
-  // IndexGroup.appendChild(IndexInput);
-  IndexGroup.appendChild(incrementButton);
-  // IndexGroup.appendChild(label);
+  // // === FITS Index Selection ===
 
-  IndexGroup.style.justifyContent = "right";
-  IndexGroup.style.alignItems = "center";
+//     const IndexGroup = document.createElement("div");
+//     const IndexLabel = document.createElement("label");
+//     IndexLabel.innerText = "Image:";
+//     IndexLabel.title = "FITS selection based on input (starts at 0)";
+//     IndexGroup.style.marginRight = "1rem";
+//     IndexGroup.style.marginLeft = ".5rem";
+//     IndexGroup.style.marginTop = ".5rem";
+//     IndexGroup.style.marginBottom = ".5rem";
+//     const IndexInput = document.createElement("input");
+//     IndexInput.type = "number";
+//     IndexInput.step = "1";
+//     IndexInput.min = "0"
+//     IndexInput.value = model.get("index");
+//     IndexInput.style.width = "2rem";
+//     IndexInput.addEventListener("input", () => {
+//         model.set("index", parseInt(IndexInput.value));
+//         model.save_changes();
+//       });
+//     model.on("change:index", () => {
+//     IndexInput.value = model.get("index");
+//       });
+    
+//     IndexGroup.appendChild(IndexLabel);
+//     IndexGroup.appendChild(IndexInput);
 
-  container.appendChild(IndexGroup);
-  el.appendChild(container);
-}
+//       // === Append All Groups ===
+// //Stacked one on top of the other
+
+//       container.appendChild(IndexGroup);
+//       el.appendChild(container);
+//     }
+
+    const IndexGroup = document.createElement("div");
+    IndexGroup.style.display = "flex";
+    IndexGroup.style.alignItems = "center";
+    IndexGroup.style.gap = "0.5rem";
+    
+    // const IndexLabel = document.createElement("label");
+    // IndexLabel.innerText = "Image:";
+    // IndexLabel.title = "FITS selection based on input (starts at 0)";
+    
+    const decrementButton = document.createElement("button");
+    decrementButton.innerHTML = '<span class="mdi mdi-chevron-left mdi-24px"></span>';
+    decrementButton.title = "Previous image";
+    decrementButton.style.background = "none";
+    decrementButton.style.width = "1rem";
+    decrementButton.style.height = "1rem";
+    decrementButton.style.display = "flex";
+    decrementButton.style.alignItems = "center";
+    decrementButton.style.justifyContent = "center";
+    
+    const incrementButton = document.createElement("button");
+    incrementButton.innerHTML = '<span class="mdi mdi-chevron-right mdi-24px"></span>';
+    incrementButton.title = "Next image";
+    incrementButton.style.background = "none";
+    incrementButton.style.width = "1rem";
+    incrementButton.style.height = "1rem";
+    incrementButton.style.display = "flex";
+    incrementButton.style.alignItems = "center";
+    incrementButton.style.justifyContent = "center";
+    
+    const IndexInput = document.createElement("input");
+    IndexInput.type = "number";
+    IndexInput.step = "1";
+    IndexInput.min = "0";
+    IndexInput.value = model.get("index");
+    IndexInput.style.width = "3rem";
+    IndexInput.style.textAlign = "center";
+    
+    // Input change
+    IndexInput.addEventListener("input", () => {
+      model.set("index", parseInt(IndexInput.value));
+      model.save_changes();
+    });
+    model.on("change:index", () => {
+      IndexInput.value = model.get("index");
+    });
+    
+    // Increment/Decrement buttons
+    decrementButton.addEventListener("click", () => {
+      let newVal = Math.max(0, parseInt(IndexInput.value) - 1);
+      IndexInput.value = newVal;
+      model.set("index", newVal);
+      model.save_changes();
+    });
+    incrementButton.addEventListener("click", () => {
+      let newVal = parseInt(IndexInput.value) + 1;
+      IndexInput.value = newVal;
+      model.set("index", newVal);
+      model.save_changes();
+    });
+    
+    // IndexGroup.appendChild(IndexLabel);
+    IndexGroup.appendChild(IndexInput);
+    IndexGroup.appendChild(decrementButton);
+    IndexGroup.appendChild(incrementButton);
 
 
+    
+      // === Append All Groups ===
+//Stacked one on top of the other
+
+      container.appendChild(IndexGroup);
+      el.appendChild(container);
+    }
