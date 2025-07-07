@@ -140,6 +140,36 @@ function renderRatio({ model, el }) {
       container.classList.add("control-widget");
       container.style.position = "relative";
 
+      //     // // === Crop Size Width ===
+    
+      // const cropwidthGroup = document.createElement("div");
+      // cropwidthGroup.style.alignItems = "center";
+      // cropwidthGroup.style.position = "relative";
+      // // cropwidthGroup.style.justifyContent = "center";
+      // const cropwidthLabel = document.createElement("label");
+      // // cropwidthLabel.innerHTML = "Crop<br>Width:";
+      // cropwidthLabel.innerHTML = "Crop Width:";    
+      // cropwidthLabel.style.lineHeight = "1.0";
+      // cropwidthLabel.title = "image width (pixels)";
+      // cropwidthLabel.style.marginRight = "1rem";
+      // const cropwidthInput = document.createElement("input");
+      // cropwidthInput.type = "number";
+      // cropwidthInput.step = "any";
+      // cropwidthInput.value = model.get("cropwidth");
+      // cropwidthInput.style.width = "7.7rem";
+      // // cropwidthInput.style.marginBottom = "1rem";
+      // // cropwidthGroup.style.marginLeft = ".5rem";
+      // // cropwidthInput.style.marginRight = "1rem";
+      // cropwidthLabel.addEventListener("input", () => {
+      //   model.set("cropwidth", parseInt(cropwidthInput.value));
+      //   model.save_changes();
+      // });
+      // model.on("change:cropwidth", () => {
+      //   cropwidthInput.value = model.get("cropwidth");
+      // });
+      // cropwidthGroup.appendChild(cropwidthLabel);
+      // cropwidthGroup.appendChild(cropwidthInput);
+
 
       // === Crop Size Width ===
 
@@ -400,6 +430,7 @@ function renderNormalization({ model, el }) {
       model.save_changes();
     });
     invertButtonGroup.appendChild(invertButton);
+        
 
 
 
@@ -499,21 +530,13 @@ function renderNormalization({ model, el }) {
       NormalGroup.appendChild(minGroup);
       NormalGroup.appendChild(maxGroup);
       NormalGroup.appendChild(invertButtonGroup);
+      // NormalGroup.appendChild(ColorizePreviewGroup);
 
 
 
       container.appendChild(NormalGroup);
       el.appendChild(container);
     }
-
-        //   container.appendChild(stretchGroup);
-    //   container.appendChild(minGroup);
-    //   container.appendChild(maxGroup);
-    //   // container.appendChild(invertGroup);
-    //   container.appendChild(invertButtonGroup);
-    //   el.appendChild(container);
-    // }
-
 
 
 
@@ -538,7 +561,7 @@ function renderSave({ model, el }) {
   const saveMemoryButtonGroup = document.createElement("div");
   const saveMemoryButton = document.createElement("button");
   saveMemoryButton.innerText = "Save to Notebook";
-  saveMemoryButton.title = "Save all cropped images to memory as '<your-variable-name>.cutout[0]'";
+  saveMemoryButton.title = "Save all cropped images to memory as 'cutout'";
   saveMemoryButton.style.width = "405px";
   saveMemoryButton.style.height = "40px";
   saveMemoryButton.style.marginLeft = "1rem";
@@ -550,7 +573,7 @@ function renderSave({ model, el }) {
   });
 
   saveMemoryButtonGroup.appendChild(saveMemoryButton);
-  // container.appendChild(saveMemoryButtonGroup);
+
 
 
 
@@ -581,8 +604,11 @@ function renderSave({ model, el }) {
   const options = [
     { label: "PNGs", action: () => model.set("save_png", true) },
     { label: "FITS", action: () => model.set("save_fits", true) },
-    { label: "Colored", action: () => model.set("save_color", true) }
   ];
+
+  if (model.get("total") >= 3) {
+    options.push({ label: "Colorize", action: () => model.set("save_color", true) });
+  }
 
   options.forEach(({ label, action }) => {
     const item = document.createElement("div");
@@ -614,12 +640,12 @@ function renderSave({ model, el }) {
 
   dropdownWrapper.appendChild(saveButton);
   dropdownWrapper.appendChild(dropdownMenu);
-  // container.appendChild(dropdownWrapper);
+
 
 
     SaveGroup.appendChild(saveMemoryButtonGroup);
     SaveGroup.appendChild(dropdownWrapper);
-    // SaveGroup.style.marginRight = "1rem";
+
 
   container.appendChild(SaveGroup);
   el.appendChild(container);
@@ -679,7 +705,7 @@ function renderImageCounter({ model, el }) {
 
   // Label: Image x/N
   const label = document.createElement("span");
-  // label.style.marginLeft = "0.5rem";
+  label.style.marginLeft = "0.5rem";
   const updateLabel = () => {
     const index = model.get("index") + 1;  // Display index + 1
     const total = model.get("total") || "?";  // Make sure model includes `total`
@@ -717,6 +743,7 @@ function renderImageCounter({ model, el }) {
       model.set("index", newVal);
       model.save_changes();
     }
+    // else do nothing, prevent index overflow
   });
 
   updateLabel();
