@@ -11,7 +11,7 @@ pip install snipy
 
 you are now ready to load snipy in a Jupyter Notebook
 
-'''python
+'''shell
 from snipy import SnipPyFits
 snip = SnipPyFits([<input_files *Path or URL*>])
 snip
