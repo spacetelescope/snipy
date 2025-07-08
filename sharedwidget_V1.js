@@ -16,6 +16,7 @@
 
 
 export function render({ model, el }) {
+    // totals = model.get("total")
 	let componentType = model.get("component");
 
 	switch (componentType) {
@@ -448,13 +449,10 @@ function renderNormalization({ model, el }) {
         ColorButtonGroup.style.alignItems = "center";
         const ColorButton = document.createElement("button");
         ColorButton.innerText = "Preview Color";
-        // invertButton.innerText = "INVERT";
         ColorButton.title = "colorize image";
         ColorButton.style.marginLeft = "1rem";
         ColorButton.style.width = "100px";
         ColorButton.style.height = "40px";
-        // invertButton.style.padding = "8px 13px 8px 13px";
-        // invertButton.style.fontWeight = "normal";
         let color = false
         
         // On click: trigger save
@@ -742,6 +740,19 @@ function renderImageCounter({ model, el }) {
   IndexInput.style.width = "2rem";
   IndexInput.style.textAlign = "center";
 
+  // const updateIndexGroup() {
+  //   IndexGroup.innerHTML = ""; // clear
+  //   if (!model.get("preview_color")) {
+  //     IndexGroup.appendChild(decrementButton);
+  //     IndexGroup.appendChild(label);
+  //     IndexGroup.appendChild(incrementButton);
+  //   } else {
+  //     IndexGroup.appendChild(Color_Label);
+  //   }
+  //   updateLabel();
+  // }
+
+    
   // Label: Image x/N
   const label = document.createElement("span");
   label.style.marginLeft = "0.5rem";
@@ -786,14 +797,31 @@ function renderImageCounter({ model, el }) {
   });
 
   updateLabel();
-    
-  // IndexGroup.appendChild(label);
-  IndexGroup.appendChild(decrementButton);
-  IndexGroup.appendChild(label);
-  // IndexGroup.appendChild(IndexInput);
-  IndexGroup.appendChild(incrementButton);
-  // IndexGroup.appendChild(label);
 
+  const Color_Label = document.createElement("label");
+  Color_Label.innerHTML = "Colorized Image";
+
+  // // IndexGroup.appendChild(label);
+
+  if (!model.get("preview_color")) {
+      IndexGroup.appendChild(decrementButton);
+      IndexGroup.appendChild(label);
+      // IndexGroup.appendChild(IndexInput);
+      IndexGroup.appendChild(incrementButton);
+      // IndexGroup.appendChild(label);
+        // updateLabel();
+  }
+    else{ 
+      IndexGroup.appendChild(Color_Label);
+  }
+  updateLabel();
+
+  // IndexGroup.appendChild(decrementButton);
+  // IndexGroup.appendChild(label);
+  // // IndexGroup.appendChild(IndexInput);
+  // IndexGroup.appendChild(incrementButton);
+  // // IndexGroup.appendChild(label);
+    
   IndexGroup.style.justifyContent = "right";
   IndexGroup.style.alignItems = "center";
 
