@@ -68,6 +68,7 @@ class SnipPyFits(AnyWidget):
         invertbut = traitlets.Bool(False).tag(sync=True)
         total = traitlets.Int(1).tag(sync=True)
         stretch = traitlets.Unicode("linear").tag(sync=True)
+        preview_color = traitlets.Bool(False).tag(sync=True)
 
         
     class Save(AnyWidget):
@@ -92,7 +93,6 @@ class SnipPyFits(AnyWidget):
         _css = pathlib.Path(__file__).parent / "static" / "sharedwidget_V1.css"
         index = traitlets.Int(0).tag(sync=True)
         total = traitlets.Int(1).tag(sync=True)
-
     def __init__(self, input_files):
         super().__init__()
         self.input_files = input_files
@@ -127,7 +127,7 @@ class SnipPyFits(AnyWidget):
         self.TOP.dec = mid_dec
         self.LEFT.cropwidth = naxis1
         self.LEFT.cropheight = naxis2
-        self.cutout = self.saveMemory()
+        # self.cutout = self.saveMemory()
 
         """Watches for changes in widegt, if change Updates Image"""
         for name in ['ra',
@@ -149,7 +149,7 @@ class SnipPyFits(AnyWidget):
         self.SAVE.observe(self.saveFITS, names="save_fits")
         self.SAVE.observe(self.savePNG, names="save_png")
         self.SAVE.observe(self.saveColor, names="save_color") 
-        self.SAVE.observe(self.saveMemory, names="save_memory")
+        # self.SAVE.observe(self.saveMemory, names="save_memory")
 
         
         """Formats the Widgets' Layout"""
@@ -214,6 +214,8 @@ class SnipPyFits(AnyWidget):
                         stretch=self.RIGHT.stretch,
                         invert=self.RIGHT.invertbut,
                         minmax_percent=[self.RIGHT.min_percent, self.RIGHT.max_percent])
+                    
+                    self.cutout = fits_cutout.fits_cutouts[0]
         
                     fits_img = cutouts[self.BOTTOM.index]
     
@@ -310,22 +312,22 @@ class SnipPyFits(AnyWidget):
 
 
 
-    """saves cutout to memory for uses in notebook"""
-    def saveMemory(self, change=None):
-        try:
-                center_coord = SkyCoord(self.TOP.ra, self.TOP.dec, unit="deg")
-                cutout_size = [self.LEFT.cropwidth, self.LEFT.cropheight]
-                fits_cutout = FITSCutout(
-                                input_files=self.input_files,
-                                coordinates=center_coord,
-                                cutout_size=cutout_size,
-                                single_outfile=True)
-                self.cutout = fits_cutout.fits_cutouts[0]
-        except Exception:
-            self.cutout = None
-        finally:
-            self.SAVE.save_memory = False
-        return self.cutout
+    # """saves cutout to memory for uses in notebook"""
+    # def saveMemory(self, change=None):
+    #     try:
+    #             center_coord = SkyCoord(self.TOP.ra, self.TOP.dec, unit="deg")
+    #             cutout_size = [self.LEFT.cropwidth, self.LEFT.cropheight]
+    #             fits_cutout = FITSCutout(
+    #                             input_files=self.input_files,
+    #                             coordinates=center_coord,
+    #                             cutout_size=cutout_size,
+    #                             single_outfile=True)
+    #             self.cutout = fits_cutout.fits_cutouts[0]
+    #     except Exception:
+    #         self.cutout = None
+    #     finally:
+    #         self.SAVE.save_memory = False
+    #     return self.cutout
 
         
     def _ipython_display_(self, **kwargs):

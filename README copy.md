@@ -45,11 +45,15 @@ Open `Test_Notebook.ipynb` in JupyterLab to start developing. Changes made in `s
 in the notebook.
 
 
-##Works best in (browser)
+
+
+## Works best in (browser)
 Google Chrome
 
 
-##Works with (Browser)
+
+
+## Works with (Browser)
 Apple Safari
 Mozilla Firefox
 
