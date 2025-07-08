@@ -135,7 +135,7 @@ function renderRatio({ model, el }) {
       RatioGroup.style.display = "flex";
       RatioGroup.style.gap = "1rem";
       RatioGroup.style.marginLeft = "1rem";
-      RatioGroup.style.marginBottom = "10%";
+      RatioGroup.style.marginBottom = "9%";
       RatioGroup.style.alignItems = "center";
       container.classList.add("control-widget");
       container.style.position = "relative";
@@ -235,8 +235,8 @@ function renderRatio({ model, el }) {
     // zoominButton.style.marginTop = "1rem";
     // zoominButton.style.marginRight = ".5rem";
     // zoominButton.style.marginLEFT = "1rem";
-    zoominButton.style.width = "42px";
-    zoominButton.style.height = "42px";
+    zoominButton.style.width = "50px";
+    zoominButton.style.height = "50px";
     zoominButton.addEventListener("click", () => {
         //When pressed will multiply the crop sizes by 0.5 and input that answer as new crop sizes
       const newWidth = model.get("cropwidth") * 0.5;
@@ -260,8 +260,8 @@ function renderRatio({ model, el }) {
     // zoomoutButton.style.marginRight = ".5rem";
     // zoomoutButton.style.marginLeft = ".5rem";
     // zoomoutButton.style.marginBottom = "1rem";
-    zoomoutButton.style.width = "42px";
-    zoomoutButton.style.height = "42px";
+    zoomoutButton.style.width = "50px";
+    zoomoutButton.style.height = "50px";
     zoomoutButton.addEventListener("click", () => {
       const newWidth = model.get("cropwidth") * 1.5;
       const newHeight = model.get("cropheight") * 1.5;
@@ -303,7 +303,7 @@ function renderNormalization({ model, el }) {
       container.classList.add("control-widget");
       container.style.position = "relative";
       const NormalGroup = document.createElement("div");
-      NormalGroup.style.marginBottom = "10%";
+      NormalGroup.style.marginBottom = "9%";
     
     
       // === Min% ===
@@ -411,6 +411,14 @@ function renderNormalization({ model, el }) {
     
 
 
+
+
+
+        
+
+
+
+    
     const invertButtonGroup = document.createElement("div");
     invertButtonGroup.style.display = "flex";
     invertButtonGroup.style.alignItems = "center";
@@ -419,7 +427,9 @@ function renderNormalization({ model, el }) {
     // invertButton.innerText = "INVERT";
     invertButton.title = "invert image";
     invertButton.style.marginLeft = "1rem";
-    invertButton.style.padding = "8px 13px 8px 13px";
+    invertButton.style.width = "100px";
+    invertButton.style.height = "40px";
+    // invertButton.style.padding = "8px 13px 8px 13px";
     // invertButton.style.fontWeight = "normal";
     let invert = false
     
@@ -430,7 +440,34 @@ function renderNormalization({ model, el }) {
       model.save_changes();
     });
     invertButtonGroup.appendChild(invertButton);
+    // invertButtonGroup.appendChild(ColorButtonGroup);
+
+    if (model.get("total") >= 3) { 
+        const ColorButtonGroup = document.createElement("div");
+        ColorButtonGroup.style.display = "flex";
+        ColorButtonGroup.style.alignItems = "center";
+        const ColorButton = document.createElement("button");
+        ColorButton.innerText = "Preview Color";
+        // invertButton.innerText = "INVERT";
+        ColorButton.title = "colorize image";
+        ColorButton.style.marginLeft = "1rem";
+        ColorButton.style.width = "100px";
+        ColorButton.style.height = "40px";
+        // invertButton.style.padding = "8px 13px 8px 13px";
+        // invertButton.style.fontWeight = "normal";
+        let color = false
         
+        // On click: trigger save
+        ColorButton.addEventListener("click", () => {
+          color = !color;
+          model.set("preview_color", color);
+          model.save_changes();
+        });
+        ColorButtonGroup.appendChild(ColorButton);
+        invertButtonGroup.appendChild(ColorButtonGroup);
+    }    
+
+
 
 
 
@@ -457,8 +494,9 @@ function renderNormalization({ model, el }) {
     // stretchDropdownWrapper.style.marginLeft = "0.5rem";
     
     const stretchButton = document.createElement("button");
-    stretchButton.style.width = "70px";
-    stretchButton.style.height = "30px";
+    stretchButton.style.width = "100px";
+    stretchButton.style.height = "40px";
+    // stretchButton.style.padding = "6px 11px 6px 11px";
     stretchButton.title = "Choose stretch function";
     
     const stretchOptions = ["linear", "log", "sqrt", "asinh", "sinh"];
@@ -530,7 +568,7 @@ function renderNormalization({ model, el }) {
       NormalGroup.appendChild(minGroup);
       NormalGroup.appendChild(maxGroup);
       NormalGroup.appendChild(invertButtonGroup);
-      // NormalGroup.appendChild(ColorizePreviewGroup);
+      // NormalGroup.appendChild(ColorButtonGroup);
 
 
 
@@ -554,25 +592,25 @@ function renderSave({ model, el }) {
   container.style.position = "relative"; // to anchor dropdown
 
   const SaveGroup = document.createElement("div");
-  SaveGroup.style.marginTop = "4%";
+  // SaveGroup.style.marginTop = "2%";
   SaveGroup.style.marginBottom = "15%";
 
   // Optional: Save to memory button
-  const saveMemoryButtonGroup = document.createElement("div");
-  const saveMemoryButton = document.createElement("button");
-  saveMemoryButton.innerText = "Save to Notebook";
-  saveMemoryButton.title = "Save all cropped images to memory as 'cutout'";
-  saveMemoryButton.style.width = "405px";
-  saveMemoryButton.style.height = "40px";
-  saveMemoryButton.style.marginLeft = "1rem";
-  saveMemoryButton.style.background = "#a75000";
+  // const saveMemoryButtonGroup = document.createElement("div");
+  // const saveMemoryButton = document.createElement("button");
+  // saveMemoryButton.innerText = "Save to Notebook";
+  // saveMemoryButton.title = "Save all cropped images to memory as 'cutout'";
+  // saveMemoryButton.style.width = "405px";
+  // saveMemoryButton.style.height = "40px";
+  // saveMemoryButton.style.marginLeft = "1rem";
+  // saveMemoryButton.style.background = "#a75000";
 
-  saveMemoryButton.addEventListener("click", () => {
-    model.set("save_memory", true);
-    model.save_changes();
-  });
+  // saveMemoryButton.addEventListener("click", () => {
+  //   model.set("save_memory", true);
+  //   model.save_changes();
+  // });
 
-  saveMemoryButtonGroup.appendChild(saveMemoryButton);
+  // saveMemoryButtonGroup.appendChild(saveMemoryButton);
 
 
 
@@ -588,6 +626,7 @@ function renderSave({ model, el }) {
   saveButton.title = "Choose format to save";
   saveButton.style.width = "100px";
   saveButton.style.height = "40px";
+    
   saveButton.style.marginLeft = "1rem";
 
   const dropdownMenu = document.createElement("div");
@@ -643,7 +682,7 @@ function renderSave({ model, el }) {
 
 
 
-    SaveGroup.appendChild(saveMemoryButtonGroup);
+    // SaveGroup.appendChild(saveMemoryButtonGroup);
     SaveGroup.appendChild(dropdownWrapper);
 
 

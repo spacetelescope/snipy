@@ -237,6 +237,7 @@ function renderRatio({ model, el }) {
     // zoominButton.style.marginLEFT = "1rem";
     zoominButton.style.width = "42px";
     zoominButton.style.height = "42px";
+    // zoominButton.style.padding = "100px";
     zoominButton.addEventListener("click", () => {
         //When pressed will multiply the crop sizes by 0.5 and input that answer as new crop sizes
       const newWidth = model.get("cropwidth") * 0.5;
