@@ -1,7 +1,7 @@
-# Ignore macOS system files
-**/.DS_Store
+# OS X
+.DS_Store
 
-# Ignore Jupyter checkpoints in all folders
+
+__pycache__/
+
 .ipynb_checkpoints/
-
-**/__pycache__
