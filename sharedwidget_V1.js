@@ -443,27 +443,60 @@ function renderNormalization({ model, el }) {
     invertButtonGroup.appendChild(invertButton);
     // invertButtonGroup.appendChild(ColorButtonGroup);
 
-    if (model.get("total") >= 3) { 
-        const ColorButtonGroup = document.createElement("div");
-        ColorButtonGroup.style.display = "flex";
-        ColorButtonGroup.style.alignItems = "center";
-        const ColorButton = document.createElement("button");
-        ColorButton.innerText = "Preview Color";
-        ColorButton.title = "colorize image";
-        ColorButton.style.marginLeft = "1rem";
-        ColorButton.style.width = "100px";
-        ColorButton.style.height = "40px";
-        let color = false
+    // if (model.get("total") >= 3 && model.get("index") == 0) { 
+    //     const ColorButtonGroup = document.createElement("div");
+    //     ColorButtonGroup.style.display = "flex";
+    //     ColorButtonGroup.style.alignItems = "center";
+    //     const ColorButton = document.createElement("button");
+    //     ColorButton.innerText = "Preview Color";
+    //     ColorButton.title = "colorize image";
+    //     ColorButton.style.marginLeft = "1rem";
+    //     ColorButton.style.width = "100px";
+    //     ColorButton.style.height = "40px";
+    //     let color = false
         
-        // On click: trigger save
-        ColorButton.addEventListener("click", () => {
-          color = !color;
-          model.set("preview_color", color);
-          model.save_changes();
-        });
-        ColorButtonGroup.appendChild(ColorButton);
-        invertButtonGroup.appendChild(ColorButtonGroup);
-    }    
+    //     // On click: trigger save
+    //     ColorButton.addEventListener("click", () => {
+    //       color = !color;
+    //       model.set("preview_color", color);
+    //       model.save_changes();
+    //     });
+    //     ColorButtonGroup.appendChild(ColorButton);
+    //     invertButtonGroup.appendChild(ColorButtonGroup);
+    // }    
+
+
+
+    const ColorButtonGroup = document.createElement("div");
+    ColorButtonGroup.style.display = "flex";
+    ColorButtonGroup.style.alignItems = "center";
+    
+    const ColorButton = document.createElement("button");
+    ColorButton.innerText = "Preview Color";
+    ColorButton.title = "colorize image";
+    ColorButton.style.marginLeft = "1rem";
+    ColorButton.style.width = "100px";
+    ColorButton.style.height = "40px";
+    
+    let color = false;
+    ColorButton.addEventListener("click", () => {
+      color = !color;
+      model.set("preview_color", color);
+      model.save_changes();
+    });
+    
+    ColorButtonGroup.appendChild(ColorButton);
+    invertButtonGroup.appendChild(ColorButtonGroup);
+    
+    // Function to show/hide based on index
+    function updateColorButton() {
+      const shouldShow = model.get("total") >= 3 && model.get("index") == 0;
+      ColorButtonGroup.style.display = shouldShow ? "flex" : "none";
+    }
+    
+    // Initial render and reactive update
+    updateColorButton();
+    model.on("change:index", updateColorButton);
 
 
 
@@ -691,13 +724,6 @@ function renderSave({ model, el }) {
 
 
 
-
-
-
-
-
-
-
 function renderImageCounter({ model, el }) {
   const container = document.createElement("div");
   container.classList.add("control-widget");
@@ -707,8 +733,9 @@ function renderImageCounter({ model, el }) {
   IndexGroup.style.display = "flex";
   IndexGroup.style.alignItems = "center";
   IndexGroup.style.gap = "0.5rem";
-  IndexGroup.style.marginRight = "0.5rem";    
-  IndexGroup.style.marginBottom = "0.5rem";      
+  IndexGroup.style.marginRight = "0.5rem";
+  IndexGroup.style.marginBottom = "0.5rem";
+  IndexGroup.style.justifyContent = "right";
 
   const decrementButton = document.createElement("button");
   decrementButton.innerHTML = '<span class="mdi mdi-menu-left mdi-24px"></span>';
@@ -730,90 +757,53 @@ function renderImageCounter({ model, el }) {
   incrementButton.style.alignItems = "center";
   incrementButton.style.justifyContent = "center";
 
-  const IndexInput = document.createElement("input");
-  IndexInput.type = "number";
-  IndexInput.step = "1";
-  IndexInput.min = "1";  // Show 1 as the minimum
-  IndexInput.max = model.get("total");
-  IndexInput.value = model.get("index") + 1;  // Offset display
-  IndexInput.style.width = "2rem";
-  IndexInput.style.textAlign = "center";
-
-    
-  // Label: Image x/N
   const label = document.createElement("span");
   label.style.marginLeft = "0.5rem";
-  const updateLabel = () => {
-    const index = model.get("index") + 1;  // Display index + 1
-    const total = model.get("total") || "?";  // Make sure model includes `total`
-    label.textContent = `Image ${index}/${total}`;
-  };
-
-  // Input change (convert back to 0-based index)
-  IndexInput.addEventListener("input", () => {
-    const newVal = parseInt(IndexInput.value) - 1;
-    if (!isNaN(newVal) && newVal >= 0 && newVal < model.get("total")) {
-      model.set("index", newVal);
-      model.save_changes();
-    } else {
-      // Clamp input value to valid range
-      IndexInput.value = model.get("index") + 1;
-    }
-  });
-
-  model.on("change:index", () => {
-    IndexInput.value = model.get("index") + 1;  // Show index+1
-    updateLabel();
-  });
-
-  // Buttons
-  decrementButton.addEventListener("click", () => {
-    let newVal = Math.max(0, model.get("index") - 1);
-    model.set("index", newVal);
-    model.save_changes();
-  });
-
-  incrementButton.addEventListener("click", () => {
-    let newVal = model.get("index");
-    if (newVal < model.get("total") - 1) {
-      newVal += 1;
-      model.set("index", newVal);
-      model.save_changes();
-    }
-    // else do nothing, prevent index overflow
-  });
-
-  // updateLabel();
 
   const Color_Label = document.createElement("label");
   Color_Label.innerHTML = "Colorized Image";
 
-  // // IndexGroup.appendChild(label);
+  const updateLabel = () => {
+    const index = model.get("index") + 1;
+    const total = model.get("total") || "?";
+    label.textContent = `Image ${index}/${total}`;
+  };
 
-  if (!model.get("preview_color")) {
+  const updateCounterDisplay = () => {
+    IndexGroup.innerHTML = "";
+    if (model.get("preview_color") === true) {
+      IndexGroup.appendChild(Color_Label);
+    } else {
       IndexGroup.appendChild(decrementButton);
       IndexGroup.appendChild(label);
-      // IndexGroup.appendChild(IndexInput);
       IndexGroup.appendChild(incrementButton);
-      // IndexGroup.appendChild(label);
-        updateLabel();
-  }
-    else{ 
-      IndexGroup.appendChild(Color_Label);
-  }
-  // updateLabel();
+      updateLabel();
+    }
+  };
 
-  // IndexGroup.appendChild(decrementButton);
-  // IndexGroup.appendChild(label);
-  // // IndexGroup.appendChild(IndexInput);
-  // IndexGroup.appendChild(incrementButton);
-  // // IndexGroup.appendChild(label);
-    
-  IndexGroup.style.justifyContent = "right";
-  IndexGroup.style.alignItems = "center";
+  // Hook up changes
+  model.on("change:index", updateLabel);
+  model.on("change:preview_color", updateCounterDisplay);
 
+  // Input buttons
+  decrementButton.addEventListener("click", () => {
+    const current = model.get("index");
+    if (current > 0) {
+      model.set("index", current - 1);
+      model.save_changes();
+    }
+  });
+
+  incrementButton.addEventListener("click", () => {
+    const current = model.get("index");
+    const total = model.get("total");
+    if (current < total - 1) {
+      model.set("index", current + 1);
+      model.save_changes();
+    }
+  });
+
+  updateCounterDisplay();
   container.appendChild(IndexGroup);
   el.appendChild(container);
 }
-
-
