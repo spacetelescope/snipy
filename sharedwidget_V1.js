@@ -672,13 +672,13 @@ function renderSave({ model, el }) {
   dropdownMenu.style.zIndex = "999";
 
   const options = [
-    { label: "PNGs", action: () => model.set("save_png", true) },
+    { label: "PNG", action: () => model.set("save_png", true) },
     { label: "FITS", action: () => model.set("save_fits", true) },
   ];
 
-  if (model.get("total") >= 3) {
-    options.push({ label: "Colorize", action: () => model.set("save_color", true) });
-  }
+  // if (model.get("total") >= 3) {
+  //   options.push({ label: "Colorize", action: () => model.set("save_color", true) });
+  // }
 
   options.forEach(({ label, action }) => {
     const item = document.createElement("div");
