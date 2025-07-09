@@ -30,15 +30,15 @@ class SnipPyFits(AnyWidget):
     Bundles all sub-widgets in the UI
     """
     
-    _esm = pathlib.Path(__file__).parent / "static" / "sharedwidget_V1.js"
-    _css = pathlib.Path(__file__).parent / "static" / "sharedwidget_V1.css"
+    _esm = "./sharedwidget_V1.js"
+    _css = "./sharedwidget_V1.css"
     class Coordinates(AnyWidget):
         
         """Widget responsible for ra and dec"""
         
         component = Unicode("Coordinates").tag(sync=True)
-        _esm = pathlib.Path(__file__).parent / "static" / "sharedwidget_V1.js"
-        _css = pathlib.Path(__file__).parent / "static" / "sharedwidget_V1.css"
+        _esm = "./sharedwidget_V1.js"
+        _css = "./sharedwidget_V1.css"
         ra = traitlets.Float().tag(sync=True)
         dec = traitlets.Float().tag(sync=True)
 
@@ -48,8 +48,8 @@ class SnipPyFits(AnyWidget):
         """Widget responsible for the Zoom and Crop size"""
         
         component = Unicode("Ratio").tag(sync=True)
-        _esm = pathlib.Path(__file__).parent / "static" / "sharedwidget_V1.js"
-        _css = pathlib.Path(__file__).parent / "static" / "sharedwidget_V1.css"
+        _esm = "./sharedwidget_V1.js"
+        _css = "./sharedwidget_V1.css"
         cropwidth = traitlets.Float().tag(sync=True)
         cropheight = traitlets.Float().tag(sync=True)
 
@@ -59,16 +59,17 @@ class SnipPyFits(AnyWidget):
         """Widget responsible for Stretch, Min/Max Percent, and Invert"""
         
         component = Unicode("Normalization").tag(sync=True)
-        _esm = pathlib.Path(__file__).parent / "static" / "sharedwidget_V1.js"
-        _css = pathlib.Path(__file__).parent / "static" / "sharedwidget_V1.css"
+        _esm = "./sharedwidget_V1.js"
+        _css = "./sharedwidget_V1.css"
 
         min_percent = traitlets.Float(10.0).tag(sync=True)
         max_percent = traitlets.Float(99.0).tag(sync=True)
         invert = traitlets.Bool(False).tag(sync=True)
         invertbut = traitlets.Bool(False).tag(sync=True)
-        total = traitlets.Int(1).tag(sync=True)
         stretch = traitlets.Unicode("linear").tag(sync=True)
         preview_color = traitlets.Bool(False).tag(sync=True)
+        total = traitlets.Int(1).tag(sync=True)
+        index = traitlets.Int(0).tag(sync=True)
 
         
     class Save(AnyWidget):
@@ -76,23 +77,24 @@ class SnipPyFits(AnyWidget):
         """Widget responsible for the saving features (Memory, FITS, PNG, and Colorized PNG"""
         
         component = Unicode("Save").tag(sync=True)
-        _esm = pathlib.Path(__file__).parent / "static" / "sharedwidget_V1.js"
-        _css = pathlib.Path(__file__).parent / "static" / "sharedwidget_V1.css"
+        _esm = "./sharedwidget_V1.js"
+        _css = "./sharedwidget_V1.css"
         save_fits = traitlets.Bool(False).tag(sync=True)
         save_png = traitlets.Bool(False).tag(sync=True)
         save_color = traitlets.Bool(False).tag(sync=True)
         total = traitlets.Int(1).tag(sync=True)
-        save_memory = traitlets.Bool(False).tag(sync=True)
         
     class ImageCounter(AnyWidget):
          
         """Widget responsible for Flipping between images and inticating which it being viewed"""
         
         component = Unicode("ImageCounter").tag(sync=True)
-        _esm = pathlib.Path(__file__).parent / "static" / "sharedwidget_V1.js"
-        _css = pathlib.Path(__file__).parent / "static" / "sharedwidget_V1.css"
+        _esm = "./sharedwidget_V1.js"
+        _css = "./sharedwidget_V1.css"
         index = traitlets.Int(0).tag(sync=True)
         total = traitlets.Int(1).tag(sync=True)
+        preview_color = traitlets.Bool(False).tag(sync=True)
+
     def __init__(self, input_files):
         super().__init__()
         self.input_files = input_files
@@ -121,13 +123,15 @@ class SnipPyFits(AnyWidget):
         self.ShowImage = Output()
         self.BOTTOM.total = len(input_files)
         self.SAVE.total = len(input_files)
+        self.RIGHT.total = len(input_files)
         
         """Defines the starting conditions for the input files"""
         self.TOP.ra = mid_ra
         self.TOP.dec = mid_dec
         self.LEFT.cropwidth = naxis1
         self.LEFT.cropheight = naxis2
-        # self.cutout = self.saveMemory()
+        link((self.RIGHT, 'preview_color'), (self.BOTTOM, 'preview_color'))
+        link((self.RIGHT, 'index'), (self.BOTTOM, 'index'))
 
         """Watches for changes in widegt, if change Updates Image"""
         for name in ['ra',
@@ -144,12 +148,12 @@ class SnipPyFits(AnyWidget):
             self.RIGHT.observe(self.Run_image, names=name)
         for name in ['index']:
             self.BOTTOM.observe(self.Run_image, names=name)
+        for name in ['preview_color']:
+            self.RIGHT.observe(self.Run_image, names=name)
 
         """Watched for button pressed, if pressed will run function"""    
         self.SAVE.observe(self.saveFITS, names="save_fits")
         self.SAVE.observe(self.savePNG, names="save_png")
-        self.SAVE.observe(self.saveColor, names="save_color") 
-        # self.SAVE.observe(self.saveMemory, names="save_memory")
 
         
         """Formats the Widgets' Layout"""
@@ -197,6 +201,10 @@ class SnipPyFits(AnyWidget):
                 #Uses current parameters for astrocut functions
                 center_coord = SkyCoord(self.TOP.ra, self.TOP.dec, unit="deg")
                 cutout_size = [self.LEFT.cropwidth, self.LEFT.cropheight]
+                if self.RIGHT.preview_color == False:
+                    color = False
+                else:
+                    color = True
                 #Ignore warning messages that occur
                     #if image is not perfectly filled in crop area
                     #if the WCS needed to be converted
@@ -213,7 +221,8 @@ class SnipPyFits(AnyWidget):
                     cutouts = fits_cutout.get_image_cutouts(
                         stretch=self.RIGHT.stretch,
                         invert=self.RIGHT.invertbut,
-                        minmax_percent=[self.RIGHT.min_percent, self.RIGHT.max_percent])
+                        minmax_percent=[self.RIGHT.min_percent, self.RIGHT.max_percent],
+                        colorize = color)
                     
                     self.cutout = fits_cutout.fits_cutouts[0]
         
@@ -263,71 +272,32 @@ class SnipPyFits(AnyWidget):
     
     
     
-    """Saves the displayed cutouts as a PNGs to parent directory"""
+    """Saves the displayed cutouts as a PNGs to parent directory. If Preview is colorize, will """
     def savePNG(self, change):
         try:
             center_coord = SkyCoord(self.TOP.ra, self.TOP.dec, unit="deg")
             cutout_size = [self.LEFT.cropwidth, self.LEFT.cropheight]
+            if self.RIGHT.preview_color == False:
+                color = False
+                outfile = True
+            else:
+                color = True
+                outfile = False
             fits_cutout = FITSCutout(
                             input_files=self.input_files,
                             coordinates=center_coord,
                             cutout_size=cutout_size,
-                            single_outfile=True)
+                            single_outfile=outfile)
             fits_cutout.write_as_img(
                         stretch=self.RIGHT.stretch,
                         invert=self.RIGHT.invertbut,
                         minmax_percent=[self.RIGHT.min_percent, self.RIGHT.max_percent],
+                        colorize= color,
                         output_format='png')
         except Exception:
             pass
         finally:
             self.SAVE.save_png = False
-    
-
-
-
-
-    """Saves the displayed cutout and combines three fits in a R,G,B filter as a PNG to parent directory"""
-    def saveColor(self, change):
-        try:
-            center_coord = SkyCoord(self.TOP.ra, self.TOP.dec, unit="deg")
-            cutout_size = [self.LEFT.cropwidth, self.LEFT.cropheight]
-            fits_cutout = FITSCutout(
-                            input_files=self.input_files,
-                            coordinates=center_coord,
-                            cutout_size=cutout_size,
-                            single_outfile=False)
-            fits_cutout.write_as_img(
-                        stretch=self.RIGHT.stretch,
-                        invert=self.RIGHT.invertbut,
-                        minmax_percent=[self.RIGHT.min_percent, self.RIGHT.max_percent],
-                        colorize=True,
-                        output_format='png')
-        except Exception:
-            pass
-        finally:
-            self.SAVE.save_color = False
-
-
-
-
-
-    # """saves cutout to memory for uses in notebook"""
-    # def saveMemory(self, change=None):
-    #     try:
-    #             center_coord = SkyCoord(self.TOP.ra, self.TOP.dec, unit="deg")
-    #             cutout_size = [self.LEFT.cropwidth, self.LEFT.cropheight]
-    #             fits_cutout = FITSCutout(
-    #                             input_files=self.input_files,
-    #                             coordinates=center_coord,
-    #                             cutout_size=cutout_size,
-    #                             single_outfile=True)
-    #             self.cutout = fits_cutout.fits_cutouts[0]
-    #     except Exception:
-    #         self.cutout = None
-    #     finally:
-    #         self.SAVE.save_memory = False
-    #     return self.cutout
 
         
     def _ipython_display_(self, **kwargs):

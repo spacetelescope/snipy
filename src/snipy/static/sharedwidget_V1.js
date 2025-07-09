@@ -74,7 +74,6 @@ function renderCoordinates({ model, el }) {
       raInput.value = model.get("ra").toFixed(5);
       raInput.style.width = "8rem";
       raGroup.style.marginTop = "1rem";
-      // raLabel.style.marginLeft = ".5rem";
       raInput.addEventListener("input", () => {
         model.set("ra", parseFloat(raInput.value));
         model.save_changes();
@@ -97,7 +96,6 @@ function renderCoordinates({ model, el }) {
       decInput.value = model.get("dec").toFixed(5);
       decInput.style.width = "8rem";
       decGroup.style.marginTop = "1rem";
-      // decLabel.style.marginLeft = ".5rem";
       decInput.addEventListener("input", () => {
         model.set("dec", parseFloat(decInput.value));
         model.save_changes();
@@ -110,7 +108,6 @@ function renderCoordinates({ model, el }) {
 
       CoordGroup.appendChild(raGroup);
       CoordGroup.appendChild(decGroup);
-      // toptopGroup.style.marginRight = ".5rem";
 
       container.appendChild(CoordGroup);
       el.appendChild(container);
@@ -135,58 +132,23 @@ function renderRatio({ model, el }) {
       RatioGroup.style.display = "flex";
       RatioGroup.style.gap = "1rem";
       RatioGroup.style.marginLeft = "1rem";
-      RatioGroup.style.marginBottom = "10%";
+      RatioGroup.style.marginBottom = "9%";
       RatioGroup.style.alignItems = "center";
       container.classList.add("control-widget");
       container.style.position = "relative";
-
-      //     // // === Crop Size Width ===
-    
-      // const cropwidthGroup = document.createElement("div");
-      // cropwidthGroup.style.alignItems = "center";
-      // cropwidthGroup.style.position = "relative";
-      // // cropwidthGroup.style.justifyContent = "center";
-      // const cropwidthLabel = document.createElement("label");
-      // // cropwidthLabel.innerHTML = "Crop<br>Width:";
-      // cropwidthLabel.innerHTML = "Crop Width:";    
-      // cropwidthLabel.style.lineHeight = "1.0";
-      // cropwidthLabel.title = "image width (pixels)";
-      // cropwidthLabel.style.marginRight = "1rem";
-      // const cropwidthInput = document.createElement("input");
-      // cropwidthInput.type = "number";
-      // cropwidthInput.step = "any";
-      // cropwidthInput.value = model.get("cropwidth");
-      // cropwidthInput.style.width = "7.7rem";
-      // // cropwidthInput.style.marginBottom = "1rem";
-      // // cropwidthGroup.style.marginLeft = ".5rem";
-      // // cropwidthInput.style.marginRight = "1rem";
-      // cropwidthLabel.addEventListener("input", () => {
-      //   model.set("cropwidth", parseInt(cropwidthInput.value));
-      //   model.save_changes();
-      // });
-      // model.on("change:cropwidth", () => {
-      //   cropwidthInput.value = model.get("cropwidth");
-      // });
-      // cropwidthGroup.appendChild(cropwidthLabel);
-      // cropwidthGroup.appendChild(cropwidthInput);
-
 
       // === Crop Size Width ===
 
       const cropwidthGroup = document.createElement("div");
       const cropwidthLabel = document.createElement("label");
       cropwidthLabel.innerHTML = "Crop Width:";
-      // cropheightLabel.innerHTML = "Crop<br>Height:";
-      // cropwidthLabel.style.lineHeight = "1";
       cropwidthLabel.title = "image width (pixels)";
       const cropwidthInput = document.createElement("input");
       cropwidthInput.type = "number";
       cropwidthInput.step = "any";
       cropwidthInput.value = model.get("cropwidth");
-      cropwidthInput.style.width = "7.7rem";
-      // cropheightGroup.style.marginTop = "1rem";
+      cropwidthInput.style.width = "5rem";
       cropwidthLabel.style.marginRight = "1rem";
-      // cropheightLabel.style.marginBottom = ".5rem";
       cropwidthInput.addEventListener("input", () => {
         model.set("cropwidth", parseInt(cropwidthInput.value));
         model.save_changes();
@@ -204,17 +166,13 @@ function renderRatio({ model, el }) {
       const cropheightGroup = document.createElement("div");
       const cropheightLabel = document.createElement("label");
       cropheightLabel.innerHTML = "Crop Height:";
-      // cropheightLabel.innerHTML = "Crop<br>Height:";
-      // cropheightLabel.style.lineHeight = "1";
       cropheightLabel.title = "image height (pixels)";
       const cropheightInput = document.createElement("input");
       cropheightInput.type = "number";
       cropheightInput.step = "any";
       cropheightInput.value = model.get("cropheight");
-      cropheightInput.style.width = "7.7rem";
-      // cropheightGroup.style.marginTop = "1rem";
+      cropheightInput.style.width = "5rem";
       cropheightLabel.style.marginRight = "1rem";
-      // cropheightLabel.style.marginBottom = ".5rem";
       cropheightInput.addEventListener("input", () => {
         model.set("cropheight", parseInt(cropheightInput.value));
         model.save_changes();
@@ -228,16 +186,11 @@ function renderRatio({ model, el }) {
         // === Zoom In Button ===
 
     const zoominGroup = document.createElement("div");
-    // zoominGroup.style.marginLEFT = "1rem";
     const zoominButton = document.createElement("button");
     zoominButton.innerHTML = '<span class="mdi mdi-magnify-plus-outline mdi-48px"></span>';
     zoominButton.title = "decreases the crop size by 0.5";
-    // zoominButton.style.marginTop = "1rem";
-    // zoominButton.style.marginRight = ".5rem";
-    // zoominButton.style.marginLEFT = "1rem";
-    zoominButton.style.width = "42px";
-    zoominButton.style.height = "42px";
-    // zoominButton.style.padding = "100px";
+    zoominButton.style.width = "50px";
+    zoominButton.style.height = "50px";
     zoominButton.addEventListener("click", () => {
         //When pressed will multiply the crop sizes by 0.5 and input that answer as new crop sizes
       const newWidth = model.get("cropwidth") * 0.5;
@@ -253,16 +206,10 @@ function renderRatio({ model, el }) {
 
     const zoomoutGroup = document.createElement("div");
     const zoomoutButton = document.createElement("button");
-    // zoomoutButton.innerText = "🔍➖";
     zoomoutButton.innerHTML = '<span class="mdi mdi-magnify-minus-outline mdi-48px"></span>';
-    // zoomoutButton.innerHTML = "🔍➖";
     zoomoutButton.title = "increases the crop size by 1.5";
-    // zoomoutButton.style.marginTop = ".2rem";
-    // zoomoutButton.style.marginRight = ".5rem";
-    // zoomoutButton.style.marginLeft = ".5rem";
-    // zoomoutButton.style.marginBottom = "1rem";
-    zoomoutButton.style.width = "42px";
-    zoomoutButton.style.height = "42px";
+    zoomoutButton.style.width = "50px";
+    zoomoutButton.style.height = "50px";
     zoomoutButton.addEventListener("click", () => {
       const newWidth = model.get("cropwidth") * 1.5;
       const newHeight = model.get("cropheight") * 1.5;
@@ -287,24 +234,13 @@ function renderRatio({ model, el }) {
       el.appendChild(container);
     }
 
-
-
-
-
-
-
-
-
-
-
-
 function renderNormalization({ model, el }) {
 //groups all groups together
       const container = document.createElement("div");
       container.classList.add("control-widget");
       container.style.position = "relative";
       const NormalGroup = document.createElement("div");
-      NormalGroup.style.marginBottom = "10%";
+      NormalGroup.style.marginBottom = "9%";
     
     
       // === Min% ===
@@ -312,14 +248,11 @@ function renderNormalization({ model, el }) {
       const minGroup = document.createElement("div");
       minGroup.style.width = "601px";
       minGroup.style.marginBottom = "2%"
-      // minGroup.style.display = "";
-      // minGroup.style.alignItems = "center";
       const minLabel = document.createElement("label");
       minLabel.innerText = "Min %:";
       minLabel.style.marginLeft = "1rem";
       minLabel.style.marginRight = "1rem";
       minLabel.title = "adjust the upper limit of the image normalization where pixel values outside this range are clipped";
-      // minGroup.style.marginRight = ".5rem";
     //Creates Slider
       const minSlider = document.createElement("input");
       minSlider.class = "slider";
@@ -365,16 +298,12 @@ function renderNormalization({ model, el }) {
 
       const maxGroup = document.createElement("div");
       maxGroup.style.width = "602px";
-      // maxGroup.style.display = "flex";
-      // maxGroup.style.alignItems = "center";
       maxGroup.style.marginBottom = "2%"
       const maxLabel = document.createElement("label");
       maxLabel.innerText = "Max %:";
       maxLabel.style.marginLeft = "1rem";
       maxLabel.style.marginRight = "0.8rem";
       maxLabel.title = "adjust the upper limit of the image normalization where pixel values outside this range are clipped";
-      // maxLabel.style.marginLeft = ".5rem";
-      // maxGroup.style.marginRight = ".5rem";
       const maxSlider = document.createElement("input");
       maxSlider.class = "slider";
       maxSlider.type = "range";
@@ -409,19 +338,18 @@ function renderNormalization({ model, el }) {
       maxGroup.appendChild(maxSlider);
       maxGroup.appendChild(maxValue);
 
+
+
     
-
-
     const invertButtonGroup = document.createElement("div");
     invertButtonGroup.style.display = "flex";
     invertButtonGroup.style.alignItems = "center";
     const invertButton = document.createElement("button");
     invertButton.innerText = "Invert";
-    // invertButton.innerText = "INVERT";
     invertButton.title = "invert image";
     invertButton.style.marginLeft = "1rem";
-    invertButton.style.padding = "8px 13px 8px 13px";
-    // invertButton.style.fontWeight = "normal";
+    invertButton.style.width = "100px";
+    invertButton.style.height = "40px";
     let invert = false
     
     // On click: trigger save
@@ -431,7 +359,39 @@ function renderNormalization({ model, el }) {
       model.save_changes();
     });
     invertButtonGroup.appendChild(invertButton);
-        
+
+    const ColorButtonGroup = document.createElement("div");
+    ColorButtonGroup.style.display = "flex";
+    ColorButtonGroup.style.alignItems = "center";
+    
+    const ColorButton = document.createElement("button");
+    ColorButton.innerText = "Preview Color";
+    ColorButton.title = "colorize image";
+    ColorButton.style.marginLeft = "1rem";
+    ColorButton.style.width = "100px";
+    ColorButton.style.height = "40px";
+    
+    let color = false;
+    ColorButton.addEventListener("click", () => {
+      color = !color;
+      model.set("preview_color", color);
+      model.save_changes();
+    });
+    
+    ColorButtonGroup.appendChild(ColorButton);
+    invertButtonGroup.appendChild(ColorButtonGroup);
+    
+    // Function to show/hide based on index
+    function updateColorButton() {
+      const shouldShow = model.get("total") >= 3 && model.get("index") == 0;
+      ColorButtonGroup.style.display = shouldShow ? "flex" : "none";
+    }
+    
+    // Initial render and reactive update
+    updateColorButton();
+    model.on("change:index", updateColorButton);
+
+
 
 
 
@@ -455,11 +415,10 @@ function renderNormalization({ model, el }) {
     const stretchDropdownWrapper = document.createElement("div");
     stretchDropdownWrapper.style.display = "inline-block";
     stretchDropdownWrapper.style.position = "relative";
-    // stretchDropdownWrapper.style.marginLeft = "0.5rem";
     
     const stretchButton = document.createElement("button");
-    stretchButton.style.width = "70px";
-    stretchButton.style.height = "30px";
+    stretchButton.style.width = "100px";
+    stretchButton.style.height = "40px";
     stretchButton.title = "Choose stretch function";
     
     const stretchOptions = ["linear", "log", "sqrt", "asinh", "sinh"];
@@ -531,19 +490,10 @@ function renderNormalization({ model, el }) {
       NormalGroup.appendChild(minGroup);
       NormalGroup.appendChild(maxGroup);
       NormalGroup.appendChild(invertButtonGroup);
-      // NormalGroup.appendChild(ColorizePreviewGroup);
-
-
 
       container.appendChild(NormalGroup);
       el.appendChild(container);
     }
-
-
-
-
-
-
 
 
 
@@ -555,29 +505,7 @@ function renderSave({ model, el }) {
   container.style.position = "relative"; // to anchor dropdown
 
   const SaveGroup = document.createElement("div");
-  SaveGroup.style.marginTop = "4%";
   SaveGroup.style.marginBottom = "15%";
-
-  // Optional: Save to memory button
-  const saveMemoryButtonGroup = document.createElement("div");
-  const saveMemoryButton = document.createElement("button");
-  saveMemoryButton.innerText = "Save to Notebook";
-  saveMemoryButton.title = "Save all cropped images to memory as 'cutout'";
-  saveMemoryButton.style.width = "405px";
-  saveMemoryButton.style.height = "40px";
-  saveMemoryButton.style.marginLeft = "1rem";
-  saveMemoryButton.style.background = "#a75000";
-
-  saveMemoryButton.addEventListener("click", () => {
-    model.set("save_memory", true);
-    model.save_changes();
-  });
-
-  saveMemoryButtonGroup.appendChild(saveMemoryButton);
-
-
-
-
     
   // === Save Dropdown Button ===
   const dropdownWrapper = document.createElement("div");
@@ -587,15 +515,16 @@ function renderSave({ model, el }) {
   const saveButton = document.createElement("button");
   saveButton.innerText = "Save ⏷";
   saveButton.title = "Choose format to save";
-  saveButton.style.width = "100px";
+  saveButton.style.width = "725%";
   saveButton.style.height = "40px";
+    
   saveButton.style.marginLeft = "1rem";
 
   const dropdownMenu = document.createElement("div");
   dropdownMenu.style.position = "absolute";
   dropdownMenu.style.top = "100%";
   dropdownMenu.style.left = "0";
-  dropdownMenu.style.width = "85%";
+  dropdownMenu.style.width = "723%";
   dropdownMenu.style.marginLeft = "1rem";
   dropdownMenu.style.background = "#01617e";
   dropdownMenu.style.border = "1px solid #ffffff";
@@ -603,13 +532,9 @@ function renderSave({ model, el }) {
   dropdownMenu.style.zIndex = "999";
 
   const options = [
-    { label: "PNGs", action: () => model.set("save_png", true) },
+    { label: "PNG", action: () => model.set("save_png", true) },
     { label: "FITS", action: () => model.set("save_fits", true) },
   ];
-
-  if (model.get("total") >= 3) {
-    options.push({ label: "Colorize", action: () => model.set("save_color", true) });
-  }
 
   options.forEach(({ label, action }) => {
     const item = document.createElement("div");
@@ -632,7 +557,6 @@ function renderSave({ model, el }) {
     dropdownMenu.style.display = dropdownMenu.style.display === "none" ? "block" : "none";
   });
 
-  // Optional: close dropdown when clicking outside
   document.addEventListener("click", (e) => {
     if (!container.contains(e.target)) {
       dropdownMenu.style.display = "none";
@@ -643,21 +567,12 @@ function renderSave({ model, el }) {
   dropdownWrapper.appendChild(dropdownMenu);
 
 
-
-    SaveGroup.appendChild(saveMemoryButtonGroup);
-    SaveGroup.appendChild(dropdownWrapper);
+  SaveGroup.appendChild(dropdownWrapper);
 
 
   container.appendChild(SaveGroup);
   el.appendChild(container);
 }
-
-
-
-
-
-
-
 
 
 
@@ -672,8 +587,9 @@ function renderImageCounter({ model, el }) {
   IndexGroup.style.display = "flex";
   IndexGroup.style.alignItems = "center";
   IndexGroup.style.gap = "0.5rem";
-  IndexGroup.style.marginRight = "0.5rem";    
-  IndexGroup.style.marginBottom = "0.5rem";      
+  IndexGroup.style.marginRight = "0.5rem";
+  IndexGroup.style.marginBottom = "0.5rem";
+  IndexGroup.style.justifyContent = "right";
 
   const decrementButton = document.createElement("button");
   decrementButton.innerHTML = '<span class="mdi mdi-menu-left mdi-24px"></span>';
@@ -695,72 +611,52 @@ function renderImageCounter({ model, el }) {
   incrementButton.style.alignItems = "center";
   incrementButton.style.justifyContent = "center";
 
-  const IndexInput = document.createElement("input");
-  IndexInput.type = "number";
-  IndexInput.step = "1";
-  IndexInput.min = "1";  // Show 1 as the minimum
-  IndexInput.max = model.get("total");
-  IndexInput.value = model.get("index") + 1;  // Offset display
-  IndexInput.style.width = "2rem";
-  IndexInput.style.textAlign = "center";
-
-  // Label: Image x/N
   const label = document.createElement("span");
   label.style.marginLeft = "0.5rem";
+
+  const Color_Label = document.createElement("label");
+  Color_Label.innerHTML = "Colorized Image";
+
   const updateLabel = () => {
-    const index = model.get("index") + 1;  // Display index + 1
-    const total = model.get("total") || "?";  // Make sure model includes `total`
+    const index = model.get("index") + 1;
+    const total = model.get("total") || "?";
     label.textContent = `Image ${index}/${total}`;
   };
 
-  // Input change (convert back to 0-based index)
-  IndexInput.addEventListener("input", () => {
-    const newVal = parseInt(IndexInput.value) - 1;
-    if (!isNaN(newVal) && newVal >= 0 && newVal < model.get("total")) {
-      model.set("index", newVal);
-      model.save_changes();
+  const updateCounterDisplay = () => {
+    IndexGroup.innerHTML = "";
+    if (model.get("preview_color") === true) {
+      IndexGroup.appendChild(Color_Label);
     } else {
-      // Clamp input value to valid range
-      IndexInput.value = model.get("index") + 1;
+      IndexGroup.appendChild(decrementButton);
+      IndexGroup.appendChild(label);
+      IndexGroup.appendChild(incrementButton);
+      updateLabel();
     }
-  });
+  };
 
-  model.on("change:index", () => {
-    IndexInput.value = model.get("index") + 1;  // Show index+1
-    updateLabel();
-  });
+  model.on("change:index", updateLabel);
+  model.on("change:preview_color", updateCounterDisplay);
 
-  // Buttons
+  // Input buttons
   decrementButton.addEventListener("click", () => {
-    let newVal = Math.max(0, model.get("index") - 1);
-    model.set("index", newVal);
-    model.save_changes();
+    const current = model.get("index");
+    if (current > 0) {
+      model.set("index", current - 1);
+      model.save_changes();
+    }
   });
 
   incrementButton.addEventListener("click", () => {
-    let newVal = model.get("index");
-    if (newVal < model.get("total") - 1) {
-      newVal += 1;
-      model.set("index", newVal);
+    const current = model.get("index");
+    const total = model.get("total");
+    if (current < total - 1) {
+      model.set("index", current + 1);
       model.save_changes();
     }
-    // else do nothing, prevent index overflow
   });
 
-  updateLabel();
-    
-  // IndexGroup.appendChild(label);
-  IndexGroup.appendChild(decrementButton);
-  IndexGroup.appendChild(label);
-  // IndexGroup.appendChild(IndexInput);
-  IndexGroup.appendChild(incrementButton);
-  // IndexGroup.appendChild(label);
-
-  IndexGroup.style.justifyContent = "right";
-  IndexGroup.style.alignItems = "center";
-
+  updateCounterDisplay();
   container.appendChild(IndexGroup);
   el.appendChild(container);
 }
-
-
