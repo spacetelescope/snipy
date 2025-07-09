@@ -184,7 +184,7 @@ function renderRatio({ model, el }) {
       cropwidthInput.type = "number";
       cropwidthInput.step = "any";
       cropwidthInput.value = model.get("cropwidth");
-      cropwidthInput.style.width = "7.7rem";
+      cropwidthInput.style.width = "5rem";
       // cropheightGroup.style.marginTop = "1rem";
       cropwidthLabel.style.marginRight = "1rem";
       // cropheightLabel.style.marginBottom = ".5rem";
@@ -212,7 +212,7 @@ function renderRatio({ model, el }) {
       cropheightInput.type = "number";
       cropheightInput.step = "any";
       cropheightInput.value = model.get("cropheight");
-      cropheightInput.style.width = "7.7rem";
+      cropheightInput.style.width = "5rem";
       // cropheightGroup.style.marginTop = "1rem";
       cropheightLabel.style.marginRight = "1rem";
       // cropheightLabel.style.marginBottom = ".5rem";
@@ -622,7 +622,7 @@ function renderSave({ model, el }) {
   const saveButton = document.createElement("button");
   saveButton.innerText = "Save ⏷";
   saveButton.title = "Choose format to save";
-  saveButton.style.width = "100px";
+  saveButton.style.width = "725%";
   saveButton.style.height = "40px";
     
   saveButton.style.marginLeft = "1rem";
@@ -631,7 +631,7 @@ function renderSave({ model, el }) {
   dropdownMenu.style.position = "absolute";
   dropdownMenu.style.top = "100%";
   dropdownMenu.style.left = "0";
-  dropdownMenu.style.width = "85%";
+  dropdownMenu.style.width = "723%";
   dropdownMenu.style.marginLeft = "1rem";
   dropdownMenu.style.background = "#01617e";
   dropdownMenu.style.border = "1px solid #ffffff";
@@ -668,7 +668,6 @@ function renderSave({ model, el }) {
     dropdownMenu.style.display = dropdownMenu.style.display === "none" ? "block" : "none";
   });
 
-  // Optional: close dropdown when clicking outside
   document.addEventListener("click", (e) => {
     if (!container.contains(e.target)) {
       dropdownMenu.style.display = "none";
@@ -740,18 +739,6 @@ function renderImageCounter({ model, el }) {
   IndexInput.style.width = "2rem";
   IndexInput.style.textAlign = "center";
 
-  // const updateIndexGroup() {
-  //   IndexGroup.innerHTML = ""; // clear
-  //   if (!model.get("preview_color")) {
-  //     IndexGroup.appendChild(decrementButton);
-  //     IndexGroup.appendChild(label);
-  //     IndexGroup.appendChild(incrementButton);
-  //   } else {
-  //     IndexGroup.appendChild(Color_Label);
-  //   }
-  //   updateLabel();
-  // }
-
     
   // Label: Image x/N
   const label = document.createElement("span");
@@ -796,7 +783,7 @@ function renderImageCounter({ model, el }) {
     // else do nothing, prevent index overflow
   });
 
-  updateLabel();
+  // updateLabel();
 
   const Color_Label = document.createElement("label");
   Color_Label.innerHTML = "Colorized Image";
@@ -809,12 +796,12 @@ function renderImageCounter({ model, el }) {
       // IndexGroup.appendChild(IndexInput);
       IndexGroup.appendChild(incrementButton);
       // IndexGroup.appendChild(label);
-        // updateLabel();
+        updateLabel();
   }
     else{ 
       IndexGroup.appendChild(Color_Label);
   }
-  updateLabel();
+  // updateLabel();
 
   // IndexGroup.appendChild(decrementButton);
   // IndexGroup.appendChild(label);
