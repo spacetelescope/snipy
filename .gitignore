@@ -1,6 +1,6 @@
 __pycache__/
 .venv/
-.virtual_documents
+.virtual_documents/
 .ipynb_checkpoints/
 
 
