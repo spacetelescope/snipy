@@ -1,7 +1,8 @@
+__pycache__/
+.venv/
+.virtual_documents
+.ipynb_checkpoints/
+
+
 # OS X
 .DS_Store
-
-
-__pycache__/
-
-.ipynb_checkpoints/

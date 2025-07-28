@@ -1,4 +1,4 @@
-# snipy
+# SnipPy
 
 A user friendly interface to interact with Astrocut functions in Jupyter Notebook.
 The tools of Astrocut are only a few lines of code away from you!
@@ -6,15 +6,33 @@ The tools of Astrocut are only a few lines of code away from you!
 ## Installation
 not a package yet
 ```shell
-pip install snipy
+pip install SnipPy
 ```
-
-you are now ready to load snipy in a Jupyter Notebook
+How to start from scratch....
+create environment
 
 ```shell
-from snipy import SnipPyFits
-snip = SnipPyFits([<input_files *Path or URL*>])
-snip
+python3 -m venv <ENV NAME>
+source <ENV NAME>/bin/activate
+```
+install SnipPy locally (since not PyPackage yet)
+```shell
+pip install /full/path/to/my_project
+```
+create a kernel for SnipPy and launch Jupyter Lab
+```shell
+python -m ipykernel install --user --name=<SnipPy-venv> --display-name <"Python (SnipPy)">;
+
+jupyter lab
+```
+
+
+you are now ready to load SnipPy in a Jupyter Notebook
+
+```shell
+from SnipPy import SnipPyFits
+Snip = SnipPyFits([<input_files *Path or URL*>])
+Snip
 ```
 
 
