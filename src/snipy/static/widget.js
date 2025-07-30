@@ -147,6 +147,16 @@ function renderRatio({ model, el }) {
     }
     model.set("cropwidth", parseInt(cropwidthInput.value));
     model.save_changes();
+    if (
+      model.get("cropwidth") < model.get("naxis_width") ||
+      model.get("cropheight") < model.get("naxis_height")
+    ) {
+      zoomoutButton.style.background = "rgba(1, 97, 126, 1)";
+      zoomoutButton.style.cursor = "pointer";
+    } else {
+      zoomoutButton.style.background = "rgba(1, 97, 126, .5)";
+      zoomoutButton.style.cursor = "default";
+    }
   });
   model.on("change:cropwidth", () => {
     cropwidthInput.value = model.get("cropwidth");
@@ -178,6 +188,16 @@ function renderRatio({ model, el }) {
     }
     model.set("cropheight", parseInt(cropheightInput.value));
     model.save_changes();
+    if (
+      model.get("cropwidth") < model.get("naxis_width") ||
+      model.get("cropheight") < model.get("naxis_height")
+    ) {
+      zoomoutButton.style.background = "rgba(1, 97, 126, 1)";
+      zoomoutButton.style.cursor = "pointer";
+    } else {
+      zoomoutButton.style.background = "rgba(1, 97, 126, .5)";
+      zoomoutButton.style.cursor = "default";
+    }
   });
   model.on("change:cropheight", () => {
     cropheightInput.value = model.get("cropheight");
@@ -213,7 +233,7 @@ function renderRatio({ model, el }) {
     model.set("cropheight", Math.round(clamped_height));
     model.save_changes();
     if (
-      model.get("cropwidth") < model.get("naxis_width") &&
+      model.get("cropwidth") < model.get("naxis_width") ||
       model.get("cropheight") < model.get("naxis_height")
     ) {
       zoomoutButton.style.background = "rgba(1, 97, 126, 1)";
@@ -246,7 +266,7 @@ function renderRatio({ model, el }) {
     model.set("cropheight", Math.round(newHeight));
     model.save_changes();
     if (
-      model.get("cropwidth") < model.get("naxis_width") &&
+      model.get("cropwidth") < model.get("naxis_width") ||
       model.get("cropheight") < model.get("naxis_height")
     ) {
       zoomoutButton.style.background = "rgba(1, 97, 126, 1)";
