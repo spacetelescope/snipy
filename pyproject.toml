@@ -13,7 +13,9 @@ dependencies = [
     "astrocut==1.0.1",
     "matplotlib==3.10.3",
     "numpy==2.2.6",
-    "IPython==9.3.0"
+    "IPython==9.3.0",
+    "ipykernel==6.30.0",
+    "jupyterlab==4.4.5",
     ]
 readme = "README.md"
 
