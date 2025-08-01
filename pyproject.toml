@@ -5,7 +5,16 @@ build-backend = "hatchling.build"
 [project]
 name = "snipy"
 version = "0.0.0"
-dependencies = ["anywidget","astropy","ipywidgets","traitlets","astrocut","matplotlib","numpy","IPython"]
+dependencies = [
+    "anywidget==0.9.18",
+    "astropy==7.1.0",
+    "ipywidgets==8.1.7",
+    "traitlets==5.14.3",
+    "astrocut==1.0.1",
+    "matplotlib==3.10.3",
+    "numpy==2.2.6",
+    "IPython==9.3.0"
+    ]
 readme = "README.md"
 
 # For projects not using `uv`, you can install these development dependencies with:

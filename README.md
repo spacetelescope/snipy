@@ -4,24 +4,25 @@ A user friendly interface to interact with Astrocut functions in Jupyter Noteboo
 The tools of Astrocut are only a few lines of code away from you!
 
 ## Installation
-not a package yet
-```shell
-pip install SnipPy
-```
 How to start from scratch....
-create environment
+clone git repository
 
+```sh
+git clone https://github.com/spacetelescope/snipy.git
+cd snipy
+```
+create environment
 ```shell
 python3 -m venv <ENV NAME>
 source <ENV NAME>/bin/activate
 ```
-install SnipPy locally (since not PyPackage yet)
+install SnipPy locally
 ```shell
-pip install /full/path/to/my_project
+pip install .
 ```
 create a kernel for SnipPy and launch Jupyter Lab
 ```shell
-python -m ipykernel install --user --name=<SnipPy-venv> --display-name <"Python (SnipPy)">;
+python -m ipykernel install --user --name=SnipPy-venv --display-name "Python (SnipPy)";
 
 jupyter lab
 ```
